@@ -1,1 +1,45 @@
-create texas scrap
+
+import com.themillhousegroup.scoup.{Scoup, ScoupImplicits}
+
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.io.Source
+
+case class Crawler(){
+  def crawl(url: String): (String, String) = {
+    val futureObj = Scoup.get(url)
+    val htmlString = Await.result(futureObj, Duration.Inf)
+    (url, htmlString)
+  }
+}
+
+
+
+object SampleWorkflow extends App with ScoupImplicits {
+  def htmlStringToDocument(content: String) = Scoup.parseHTML(content)
+  val alabamaSeedUrls = List("https://comptroller.texas.gov/taxes/sales/county.php")
+  val htmlContents = alabamaSeedUrls.map(Crawler().crawl(_))
+  val parsedContent = htmlContents map {
+    case (url, htmlContent) if url.contains("sales/county.php") => parseStateRatePage(htmlContent)
+  }
+
+  def parseStateRatePage(content: String) = {
+    val htmlDocument = htmlStringToDocument(content)
+    val table = htmlDocument.select("table").head
+    val tableHeader = table.select("thead > tr > th").map(_.text().trim.replaceAll("\\s", "_").toLowerCase).toList
+
+    val tableRows = table.select("tbody > tr").toList.map{row =>
+      val columns = row.select("td")
+
+      Map(
+        tableHeader.head ->table.select("tbody >tr >th td").text(),
+        tableHeader(1) -> columns.get(0).text(),
+        tableHeader(2) -> columns.get(1).text()
+
+      )
+    }.toList
+
+    tableRows
+  }
+}
