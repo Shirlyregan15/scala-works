@@ -1,1 +1,243 @@
-created file
+--Analysis of Sales Data
+select * from mytable
+
+--1.Retrieve all columns for orders with a quantity greater than 50.
+select * from mytable
+where quantityordered > 50
+
+--2.List unique product lines available in the dataset.
+select distinct(productline) from mytable
+
+--3.Find the average price for each product line.
+select avg(sales), productline from mytable
+group by productline
+
+--4.Count the number of orders for each status.
+select  status , count(*) from mytable
+group by status
+
+--5.Retrieve orders where the sales amount is between 1000 and 2000.
+select * from mytable
+where sales >1000 and sales <2000
+
+--6.Get the total sales for each year.
+select "YEAR ID",sum(sales) from mytable
+group by "YEAR ID"
+
+--7.Find the order number and sales amount for the highest sale.
+select sales, ordernumber from mytable
+order by sales desc
+limit 1 
+
+select sales, ordernumber from mytable
+where sales = (select max(sales) from mytable)
+
+--8.List customers in alphabetical order by their last name.
+select contactlastname from mytable
+order by contactlastname
+
+--9.Count the number of distinct product codes.
+select count(*),productcode from mytable
+group by productcode
+
+--10.Find the total quantity ordered for each product.
+select productline, count(*) from mytable
+group by productline
+
+--11.Get the average sales for each territory.
+select avg(sales),territory from mytable
+group by territory
+
+--12.Retrieve orders with a status of 'Shipped' and a quantity ordered greater than 30.
+select * from mytable
+where status='Shipped' and quantityordered > 30
+
+--13.Find the order with the earliest order date.
+select  * from mytable
+order by orderdate asc
+limit 1 
+
+select  * from mytable
+where orderdate = (select min(orderdate) from mytable)
+
+--14.List the products with a price above the average price.
+select sales from mytable
+where sales > avg(sales)
+
+--15.Count the number of orders placed in each city.
+select count(*),city from mytable
+group by city
+
+--16.Retrieve the top 10 highest sales amounts.
+select sales from mytable
+order by sales desc
+limit 10
+
+--17.Find the average quantity ordered for each product line.
+select productline, avg(sales) from mytable
+group by productline
+
+--18.List orders with a status of 'Cancelled' and a sales amount greater than 500.
+select * from mytable
+where status = 'Cancelled' and sales <=500
+
+--19.Get the total sales for each product code.
+select productcode, sum(sales) from mytable
+group by productcode 
+
+--20.Find the customer with the highest total sales.
+select sales, customername from mytable 
+order by sales desc
+limit 10
+
+--21.Retrieve orders with a quantity ordered less than 10 or a sales amount greater than 2000.
+select * from mytable
+where quantityordered < 10 or sales > 2000
+
+--22.Count the number of orders placed in each country.
+select count(ordernumber),country from mytable
+group by country
+
+--23.Find the order with the latest order date.
+select ordernumber, orderdate from mytable
+order by orderdate desc
+limit 1
+
+--24.List the products with a price below the average price.
+select productline, priceeach from mytable
+where priceeach < (select avg(priceeach) from mytable)
+
+--25.Retrieve orders placed in the year 2023.
+select * from mytable
+where "YEAR ID" = 2023
+
+--26.Get the total quantity ordered for each product line.
+select sum(quantityordered), productline from mytable
+group by productline
+
+--27.Find the average MSRP (Manufacturer's Suggested Retail Price) for each product line.
+select avg(msrp), productline from mytable
+group by productline
+
+--28.Count the number of orders for each product line in the year 2022.
+select productline,"YEAR ID" from mytable
+where "YEAR ID"=2022
+
+--29.Retrieve orders with a status of 'In Process' and a sales amount less than 1000.
+select * from mytable
+where status = 'In Process' and sales < 1000
+
+--30.Find the order with the highest quantity ordered.
+select max(quantityordered) from mytable
+
+--31.List orders with a quantity ordered greater than 50 and a status of 'Shipped.'
+select * from mytable
+where quantityordered > 50 and status = 'Shipped'
+
+--32.Get the total sales for each product line in the year 2021.
+select sum(sales) from mytable
+where "YEAR ID" = 2021
+
+--33.Find the average sales amount for each status.
+select avg(sales), status from mytable
+group by status
+
+--34.Count the number of orders placed in each quarter.
+select count(*), "QTR ID"  from mytable
+group by "QTR ID"
+
+--35.Retrieve orders with a quantity ordered between 20 and 30.
+select  * from mytable
+where quantityordered between 20 and 30
+
+--36.List products with a price above the average price and a status of 'Shipped.'
+select productline, priceeach from mytable
+where priceeach > (select avg(priceeach) from mytable) and status = 'Shipped'
+
+--37.Find the total quantity ordered for each year.
+select count(*), "YEAR ID" from mytable
+group by "YEAR ID"
+
+--38.Get the average price for each product code.
+select avg(sales), productcode from mytable
+group by productcode
+
+--39.Count the number of orders for each product line in the year 2020.
+select count(*) from mytable
+where "YEAR ID" = 2020
+
+--40.Retrieve orders with a sales amount less than 500 and a status of 'Shipped.'
+select * from mytable
+where sales < 500 and status = 'Shipped'
+
+--41.Find the order with the lowest total sales.
+select sum(sales) from mytable
+group by productline
+order by sales asc
+limit 1
+
+--42.List orders with a quantity ordered less than 5 or a sales amount greater than 1500.
+select * from mytable
+where quantityordered < 5 or sales > 1500
+
+--43.Get the total sales for each product line in the year 2019.
+select sum(sales), productline from mytable
+where "YEAR ID" = 2019
+group by productline
+
+--44.Find the average quantity ordered for each territory.
+select territory,avg(quantityordered) from mytable
+group by territory
+
+--45.Count the number of distinct customer names.
+select count(distinct(customername)) from mytable
+
+--46.Retrieve orders with a status of 'On Hold' and a quantity ordered less than 20.
+select * from mytable
+where status = 'On Hold' and quantityordered < 20
+
+--47.Find the order with the lowest quantity ordered.
+select * from mytable
+order by quantityordered asc
+limit 1
+
+--48.List products with a price below the average price and a status of 'Cancelled.'
+select * from mytable
+where priceeach < (select avg(priceeach) from mytable ) and status = 'Cancelled'
+
+--49.Get the total sales for each city.
+select city, sum(sales) from mytable
+group by city
+
+--50.Find the average MSRP for each territory.
+select territory, avg(msrp) from mytable
+group by territory
+
+---------------------------------------------------------------------------------------
+--51.Retrieve the top 5 customers with the highest average order amount.
+select * from mytable
+order by sales desc
+limit 5
+
+--52.Find the running total of sales for each product line over time.
+select  productline, sum(sales) from mytable
+group by productline
+
+--53.Identify the customers who have placed orders in every quarter.
+select customername, "QTR ID" from mytable
+where "QTR ID" = all (select distinct("QTR ID") from mytable)
+						 
+
+--54.Calculate the median sales amount for each product line.
+select sum(sales),productline from mytable
+group by productline
+order by sum(sales) asc
+limit 1 offset 3
+
+--55.Retrieve the customers who have placed orders for products from all available product lines.
+select * from mytable
+where productline = all (select distinct(productline) from mytable)
+						
+--56.Find the orders where the sales amount is within 10% of the average sales amount.
+select * from mytable
+where sales < (select avg(sales) *100/10 from mytable)
